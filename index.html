@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07131f">
+  <meta name="description" content="Guitar Mastery Lab is a complete roadmap, exercise library, and daily practice planner for guitarists.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>Guitar Mastery Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <button class="brand" type="button" data-view-target="dashboard" aria-label="Open dashboard">
+        <span class="brand-mark" aria-hidden="true">⌁</span>
+        <span><strong>Guitar Mastery Lab</strong><small>Practice with a map</small></span>
+      </button>
+      <nav class="topnav" aria-label="Main navigation">
+        <button class="nav-link active" type="button" data-view-target="dashboard">Dashboard</button>
+        <button class="nav-link" type="button" data-view-target="roadmap">Roadmap</button>
+        <button class="nav-link" type="button" data-view-target="library">Exercise library</button>
+        <button class="nav-link" type="button" data-view-target="practice">Daily practice</button>
+      </nav>
+      <div class="top-actions">
+        <button class="btn subtle" type="button" id="exportBtn">Export</button>
+        <button class="btn primary" type="button" id="importBtn">Import</button>
+        <input id="importInput" type="file" accept="application/json" hidden>
+      </div>
+    </div>
+  </header>
+
+  <main class="main shell">
+    <section class="view active" id="view-dashboard" data-view="dashboard">
+      <div class="hero">
+        <div class="hero-copy panel">
+          <span class="eyebrow"><span class="pulse"></span> a complete guitar practice system</span>
+          <h1>Build the musician you can hear in your head.</h1>
+          <p class="lede">A 24-month roadmap, 264 authored exercises, and a daily planner that keeps technique, fretboard, harmony, rhythm, ear training, and music-making connected.</p>
+          <div class="hero-actions">
+            <button class="btn primary" type="button" data-view-target="practice">Build today’s session</button>
+            <button class="btn" type="button" data-view-target="library">Open the library</button>
+            <button class="btn" type="button" data-view-target="roadmap">See the roadmap</button>
+          </div>
+          <div class="hero-note"><span class="hero-dot"></span><span>Default reference: C major · standard tuning E–A–D–G–B–E</span></div>
+        </div>
+        <aside class="hero-proof panel">
+          <div class="proof-title">Your lab at a glance</div>
+          <div class="proof-grid">
+            <div class="stat"><strong id="statExercises">264</strong><span>authored exercises</span></div>
+            <div class="stat"><strong id="statPhases">11</strong><span>roadmap phases</span></div>
+            <div class="stat"><strong id="statCompleted">0%</strong><span>library complete</span></div>
+            <div class="stat"><strong id="statPractice">0</strong><span>sessions logged</span></div>
+          </div>
+          <div class="progress-track"><span id="overallProgressBar"></span></div>
+          <p class="source-note" id="progressSummary">Start with one focused exercise and let the record build.</p>
+        </aside>
+      </div>
+
+      <div class="dashboard-grid">
+        <section class="panel card current-card">
+          <div class="section-head"><div><span class="section-kicker">Continue</span><h2 id="continueTitle">Choose your first exercise</h2></div><button class="btn small" type="button" id="continueBtn">Open exercise</button></div>
+          <p id="continueCopy" class="muted">The library is ordered so a small win always points toward a useful next step.</p>
+          <div class="current-meta" id="continueMeta"></div>
+        </section>
+        <section class="panel card">
+          <div class="section-head"><div><span class="section-kicker">Today</span><h2>Practice balance</h2></div><span class="status-pill teal">local progress</span></div>
+          <div class="balance-list" id="balanceList"></div>
+        </section>
+      </div>
+
+      <section class="section">
+        <div class="section-head"><div><span class="section-kicker">Start anywhere</span><h2>Four ways into the material</h2></div><p class="section-aside">Everything links back to the same exercise records.</p></div>
+        <div class="entry-grid">
+          <button class="entry-card" type="button" data-library-filter="department:fretboard"><span class="entry-icon">⌖</span><strong>Know the neck</strong><span>Note names, octaves, intervals, and horizontal routes.</span><small>22 exercises · phase 1–3</small></button>
+          <button class="entry-card" type="button" data-library-filter="department:rhythm"><span class="entry-icon">▤</span><strong>Lock the pulse</strong><span>Subdivision, groove, feel, dynamics, and complete parts.</span><small>22 exercises · phase 1–5</small></button>
+          <button class="entry-card" type="button" data-library-filter="department:triads"><span class="entry-icon">△</span><strong>See harmony</strong><span>Triads, inversions, guide tones, and voice leading.</span><small>22 exercises · phase 4–9</small></button>
+          <button class="entry-card" type="button" data-library-filter="department:lead"><span class="entry-icon">✦</span><strong>Make phrases</strong><span>Chord tones, motifs, space, modes, and improvisation.</span><small>22 exercises · phase 3–7</small></button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><div><span class="section-kicker">Roadmap pulse</span><h2>Where the curriculum goes</h2></div><button class="btn small" type="button" data-view-target="roadmap">Open full roadmap</button></div>
+        <div class="phase-strip" id="dashboardPhases"></div>
+      </section>
+    </section>
+
+    <section class="view" id="view-roadmap" data-view="roadmap" hidden>
+      <div class="page-intro panel">
+        <div><span class="eyebrow">ordered path · flexible pace</span><h1>Roadmap from first clean chord to finished music.</h1><p>Use the phases as a suggested sequence. Open any phase, inspect its modules, and jump directly into the exercises that support it.</p></div>
+        <div class="intro-stat"><strong id="roadmapComplete">0 / 264</strong><span>exercises completed</span></div>
+      </div>
+      <div class="roadmap-layout">
+        <div class="roadmap-grid" id="roadmapGrid"></div>
+        <aside class="panel roadmap-detail" id="roadmapDetail">
+          <span class="section-kicker">Selected phase</span>
+          <h2 id="roadmapDetailTitle">Guitar foundations</h2>
+          <p id="roadmapDetailSummary" class="muted"></p>
+          <div class="module-list" id="moduleList"></div>
+          <button class="btn primary wide" type="button" id="roadmapOpenBtn">Open phase exercises</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="view" id="view-library" data-view="library" hidden>
+      <div class="page-intro panel library-intro">
+        <div><span class="eyebrow">exercise library · 264 records</span><h1>Pick one skill. See exactly what to do next.</h1><p>Search titles, topics, techniques, and keywords. Filters stay connected to the roadmap and the daily planner.</p></div>
+        <div class="library-stat"><strong id="libraryCount">264</strong><span>matching exercises</span></div>
+      </div>
+      <div class="library-toolbar panel">
+        <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="librarySearch" type="search" placeholder="Search title, skill, note, or technique" autocomplete="off"></label>
+        <div class="filter-row">
+          <label class="select-wrap"><span>Department</span><select id="departmentFilter"><option value="all">All departments</option></select></label>
+          <label class="select-wrap"><span>Difficulty</span><select id="difficultyFilter"><option value="all">All levels</option><option value="1">Foundations</option><option value="2">Developing</option><option value="3">Intermediate</option><option value="4">Advanced</option><option value="5">Mastery</option></select></label>
+          <label class="select-wrap"><span>Phase</span><select id="phaseFilter"><option value="all">All phases</option></select></label>
+          <label class="select-wrap"><span>Status</span><select id="statusFilter"><option value="all">All exercises</option><option value="open">Open</option><option value="done">Completed</option></select></label>
+        </div>
+      </div>
+      <div class="library-layout">
+        <aside class="panel exercise-list" id="exerciseList" aria-label="Exercise list"></aside>
+        <article class="panel exercise-detail" id="exerciseDetail" aria-live="polite"></article>
+      </div>
+    </section>
+
+    <section class="view" id="view-practice" data-view="practice" hidden>
+      <div class="page-intro panel practice-intro">
+        <div><span class="eyebrow">daily practice · adaptable</span><h1>Turn the library into a session you can finish.</h1><p>Choose your time, level, and focus. The planner balances the session, remembers what you completed, and leaves a record for the next day.</p></div>
+        <div class="intro-stat"><strong id="practiceSessionCount">0</strong><span>sessions logged</span></div>
+      </div>
+      <div class="practice-layout">
+        <section class="panel planner-card">
+          <div class="section-head"><div><span class="section-kicker">1 · configure</span><h2>Your session</h2></div><span class="status-pill amber" id="plannerEstimate">15 minutes</span></div>
+          <div class="field-group"><label class="field-label">Available time</label><div class="choice-row" id="durationChoices"></div></div>
+          <div class="field-group"><label class="field-label" for="levelChoice">Current level</label><select id="levelChoice" class="full-select"><option value="1">Foundations</option><option value="2">Developing</option><option value="3">Intermediate</option><option value="4">Advanced</option><option value="5">Mastery</option></select></div>
+          <div class="field-group"><span class="field-label">Focus areas</span><div class="focus-grid" id="focusChoices"></div></div>
+          <button class="btn primary wide" type="button" id="generateSessionBtn">Generate balanced session</button>
+          <p class="form-note">The planner always keeps one musical application or ear task in the rotation.</p>
+        </section>
+        <section class="panel session-card">
+          <div class="section-head"><div><span class="section-kicker">2 · practise</span><h2 id="sessionTitle">Your next session</h2></div><div class="session-actions"><button class="btn small" type="button" id="shuffleSessionBtn">Shuffle</button><button class="btn small" type="button" id="logSessionBtn">Log session</button></div></div>
+          <div class="session-progress"><div class="progress-track"><span id="sessionProgressBar"></span></div><span id="sessionProgressText">0 / 0 complete</span></div>
+          <div id="sessionList" class="session-list"></div>
+          <div id="sessionSummary" class="session-summary"></div>
+        </section>
+      </div>
+      <div class="practice-history panel">
+        <div class="section-head"><div><span class="section-kicker">3 · review</span><h2>Practice history</h2></div><span class="muted" id="historyHint">Your completed sessions will appear here.</span></div>
+        <div id="historyList" class="history-list"></div>
+      </div>
+    </section>
+
+    <section class="section footer-section">
+      <div class="footer-row">
+        <div><strong>Guitar Mastery Lab</strong><span>Independent local progress · JSON export/import available</span></div>
+        <div><span>264 exercises · 12 departments · standard tuning</span><button class="text-btn" type="button" data-view-target="dashboard">Back to dashboard ↑</button></div>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
